@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- namespace:指定为哪个接口提供配置 -->
+<mapper namespace="org.seckill.dao.SuccessKilledDao">
+    <!-- 目的：为dao接口方法提供sql语句配置 -->
+    <insert id = "insertSuccessKilled">
+        <!-- 同一个客户重复秒杀同一个商品时，会发生主键冲突，使用ignore避免报错-->
+        insert ignore into success_killed(seckill_id, user_phone, state)
+        values (#{seckillId}, #{userPhone}, 0)
+    </insert>
+    <select id="queryByIdWithSeckill" resultType="org.seckill.entity.SuccessKilled">
+        <!-- 如何告诉MyBatis把SQL映射到SuccessKilled对象，并同时映射到该对象的seckill对象 -->
+        <!-- "seckill.seckill_id实际上就是"seckill.seckillId -->
+        select
+          sk.seckill_id,
+          sk.user_phone,
+          sk.state,
+          sk.create_time,
+          s.seckill_id "secki.seckill_id",
+          s.name "secki.name",
+          s.number "secki.number",
+          s.create_time "secki.create_time",
+          s.start_time "secki.start_time",
+          s.end_time "secki.end_time"
+        from success_killed as sk join seckill as s on sk.seckill_id = s.seckill_id
+        where sk.seckill_id = #{seckillId} and sk.user_phone = #{userPhone}
+    </select>
+</mapper>
