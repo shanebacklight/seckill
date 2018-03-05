@@ -5,6 +5,7 @@ import org.seckill.entity.Seckill;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Administrator on 2018/2/24.
@@ -28,4 +29,10 @@ public interface SeckillDao {
     //java的语言特性，形参名字无法保存，arg0, arg1..这样造成Mybatis的SQL配置文件找不到该变量，所以使用@Param注解
     List<Seckill> queryAll(@Param("offset") int offset, @Param("limit") int limit);
 
+    /**
+     * s使用存储过程
+     * @param:
+     * @return:
+     */
+    void killByProcedure(Map<String, Object> paramMap);
 }

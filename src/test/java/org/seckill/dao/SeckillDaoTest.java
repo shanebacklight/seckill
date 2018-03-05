@@ -9,7 +9,9 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import javax.annotation.Resource;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static org.junit.Assert.*;
 
@@ -47,5 +49,16 @@ public class SeckillDaoTest {
             System.out.println(seckill.getName());
             System.out.println(seckill);
         }
+    }
+
+    @Test
+    public void testKillByProcedure() throws Exception{
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("seckillId", 1007);
+        map.put("phone", 13567462886L);
+        map.put("killTime", new Date());
+        map.put("result", null);
+        seckillDao.killByProcedure(map);
+        System.out.println(map.get("result"));
     }
 }

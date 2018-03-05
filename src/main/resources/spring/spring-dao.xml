@@ -7,8 +7,9 @@
         http://www.springframework.org/schema/context
         http://www.springframework.org/schema/context/spring-context.xsd">
     <!-- Spring和mybatis整合-->
-    <!-- 1.配置数据库相关参数 -->
-    <context:property-placeholder location = "classpath:jdbc.properties"/>
+    <!-- 1.配置数据库, Redis相关参数,多个资源文件一起加载时，倒数第二个之前的ignore-unresolvable都是true -->
+    <context:property-placeholder location = "classpath:jdbc.properties" ignore-unresolvable="true"/>
+    <context:property-placeholder location = "classpath:redis.properties"/>
     <!-- 2.c3p0数据库连接池-->
     <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
         <!-- 基本属性 driverClassurl、user、password -->
@@ -49,6 +50,12 @@
         <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
         <!-- 给出需要扫描的Dao接口-->
         <property name="basePackage" value="org.seckill.dao"/>
+    </bean>
+
+    <!--将自己设置的dao对象注入Bean容器中-->
+    <bean id="redisDao" class = "org.seckill.dao.RedisDao">
+        <constructor-arg index="0" value="${redis.ip}"/>
+        <constructor-arg index="1" value="${redis.port}"/>
     </bean>
 
 </beans>

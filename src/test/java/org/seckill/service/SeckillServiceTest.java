@@ -58,4 +58,24 @@ public class SeckillServiceTest {
             logger.warn("秒杀未开启");
         }
     }
+
+    @Test
+    public void testExecuteSeckillProcedure() throws Exception{
+        long id = 1007L;
+        Exposer exposer = seckillService.exportSeckillUrl(id);
+        if(exposer.isExposed()){
+            String md5= exposer.getMd5();
+            long phone = 15700077500L;
+            try{
+                SeckillExecution seckillExecution= seckillService.executeSeckillProcedure(id, phone, md5);
+                logger.info("seckillExecution={}", seckillExecution);
+            }
+            catch (SeckillException e) {
+                logger.warn("SeckillException={}", e.getMessage());
+            }
+        }
+        else{
+            logger.warn("秒杀未开启");
+        }
+    }
 }

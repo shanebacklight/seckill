@@ -77,7 +77,7 @@ public class SeckillController {
                 SeckillStatEnum x = SeckillStatEnum.PHONE_UNREGISTER;
                 return SeckillResultUtil.error(x.getCode(), x.getMsg());
             }
-            SeckillExecution execution = seckillService.executeSeckill(seckillId, phone, md5);
+            SeckillExecution execution = seckillService.executeSeckillProcedure(seckillId, phone, md5);
             return SeckillResultUtil.success(execution);
         }
         catch(SeckillException e) {
